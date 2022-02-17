@@ -1,9 +1,8 @@
-//для загрузки жать большой ресет он общий
+// делаем "сериал монитор" в браузере
 
-#include <Arduino.h>
 #include <GyverPortal.h>
 GyverPortal portal;
-String t;
+
 // билдер страницы
 void build() {
   String s;
@@ -15,7 +14,7 @@ void build() {
   add.BUTTON_MINI("btn", "Send", "txt");
   add.BREAK();
   
-  add.AREA_LOG(50);
+  add.AREA_LOG(5);
   
   BUILD_END();
 }
@@ -23,7 +22,7 @@ void build() {
 void setup() {
   Serial.begin(9600);
   WiFi.mode(WIFI_STA);
-  WiFi.begin("ZTE54", "121211119");
+  WiFi.begin("", "");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -36,15 +35,9 @@ void setup() {
 }
 
 void loop() {
-portal.tick();
-while(Serial.available()>0){
-t=Serial.readString();
-}
-//portal.log.println(t);
+  portal.tick();
   if (portal.click("btn")) {
     // отправляем обратно в "монитор" содержимое поля, оно пришло по клику кнопки
-    //portal.log.println(portal.getString("btn"));
-    portal.log.println(t);
+    portal.log.println(portal.getString("btn"));
   }
-  //delay(1000);
 }
